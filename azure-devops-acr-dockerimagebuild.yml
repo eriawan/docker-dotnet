@@ -6,7 +6,7 @@ pool:
   
 variables:
   buildConfiguration: 'Debug'
-  imageName: 'dotnetcore:$(Build.BuildId)'
+  imageName: 'eriawan/netcorewiniis:1803-$(Build.BuildId)'
 
 steps:
     docker build -f Dockerfile -t $(dockerId)/$(imageName) .
