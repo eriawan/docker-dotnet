@@ -16,4 +16,7 @@ steps:
     docker login -u $(loginserver) -p $pswd
     docker push $(dockerId)/$(imageName)
 
+  env:
+    pswd: $(dockerPassword)    
+
 # - task: PublishBuildArtifacts@1
