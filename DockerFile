@@ -1,0 +1,23 @@
+# escape=`
+
+FROM microsoft/iis:windowsservercore-1803
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+RUN Add-WindowsFeature NET-Framework-45-ASPNET; `
+    Add-WindowsFeature Web-Asp-Net45; `
+    Add-WindowsFeature Web-Windows-Auth; `
+    Invoke-WebRequest -Uri https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.6/ServiceMonitor.exe -OutFile C:\ServiceMonitor.exe
+
+# Copy published web app files
+# RUN md c:\webformsapp
+# WORKDIR c:/webformsapp
+# COPY SampleWebForms/ c:/webformsapp
+# RUN md c:\webformsnoauth
+# WORKDIR c:/webformsnoauth
+# COPY SampleWebFormsNoAuth/ c:/webformsnoauth
+
+# expose port
+EXPOSE 80
+
+ENTRYPOINT ["C:\\ServiceMonitor.exe", "w3svc"]
