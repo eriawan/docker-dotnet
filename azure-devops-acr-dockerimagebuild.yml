@@ -11,9 +11,9 @@ variables:
 steps:
 - script: |
     echo "Building docker image $(imageName)"
-    echo "using $(loginserver)"
     docker build -f Dockerfile -t $(imageName) .
-    docker login -u $(loginserver) -p $pswd
+    echo "login to $(loginserver)"
+    docker login $(loginserver) -u $(dockerId) -p $pswd
     docker push $(dockerId)/$(imageName)
 
   env:
