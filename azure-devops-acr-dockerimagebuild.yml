@@ -11,8 +11,9 @@ variables:
 steps:
 - script: |
     echo "Building docker image $(imageName)"
+    echo "using $(loginserver)"
     docker build -f Dockerfile -t $(imageName) .
-    docker login -u $(dockerId) -p $pswd
+    docker login -u $(loginserver) -p $pswd
     docker push $(dockerId)/$(imageName)
 
 # - task: PublishBuildArtifacts@1
