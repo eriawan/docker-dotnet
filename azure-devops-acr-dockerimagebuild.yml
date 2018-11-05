@@ -13,7 +13,7 @@ steps:
     echo "Building docker image $(imageName)"
     docker build -f Dockerfile -t $(imageName) .
     echo "login to $(loginserver)"
-    docker login $(loginserver) -u $(dockerId) -p $pswd
+    docker login -u $(dockerId) -p $(dockerPassword) $(loginserver)
     echo "execute docker push $(imageName)"
     docker push $(imageName)
 
