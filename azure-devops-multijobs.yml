@@ -29,6 +29,8 @@ jobs:
       echo "copy result to staging"
       xcopy $(Build.SourcesDirectory)\aspnetfx\ASPNET.WebForms.v4.7.2\WebFormsNoAuth\bin\Release\Publish $(Build.ArtifactStagingDirectory) /E
 
+  - task: PublishBuildArtifacts@1
+
 - job: WindowsContainer
   dependsOn: BUILDVS2017
   pool:
