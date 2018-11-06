@@ -1,0 +1,16 @@
+jobs:
+- job: BUILDVS2017
+  pool:
+    vmImage: 'vs2017-win2016'
+  steps:
+  - script: |
+      echo "compile webnoauth.csproj using VS2017"
+      msbuild aspnetfx\ASPNET.WebForms.v4.7.2\WebFormsNoAuth\WebFormsNoAuth.csproj /p:DeployOnBuild=true /p:PublishProfile=FolderProfile2
+      xcopy aspnetfx\ASPNET.WebForms.v4.7.2\WebFormsNoAuth\bin\Release\Publish $(Build.ArtifactStagingDirectory)
+
+- job: WindowsContainer
+  pool:
+    vmImage: 'win1803'
+  steps:
+  - script: |
+      echo hello from Windows
