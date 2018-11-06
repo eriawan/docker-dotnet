@@ -8,10 +8,16 @@ jobs:
       echo "hello from vmImage vs2017-win2016"
       echo "compile webnoauth.csproj using VS2017"
 
+  - task: NugetRestore@2
+    displayName: Restore nuget WebFormsNoAuth.csproj
+    inputs: 
+        command: restore
+        solution: $(Build.SourcesDirectory)\aspnetfx\ASPNET.WebForms.v4.7.2\ASPNET.WebForms.v4.7.2.sln
+    
   - task: MSBuild@1
     displayName: Build WebFormsNoAuth.csproj
     inputs:
-      solution: $(Build.SourcesDirectory)\aspnetfx\ASPNET.WebForms.v4.7.2\WebFormsNoAuth\WebFormsNoAuth.csproj
+      solution: $(Build.SourcesDirectory)\aspnetfx\ASPNET.WebForms.v4.7.2\ASPNET.WebForms.v4.7.2.sln
       msbuildLocationMethod: version
       msbuildVersion: '15.0'
       configuration: "Release"
@@ -29,3 +35,7 @@ jobs:
   steps:
   - script: |
       echo "hello from vmImage win1803"
+      md buildresult
+      echo "copy buildresult into build folder"
+      xcopy $(Build.ArtifactStagingDirectory) buildresult
+      echo "begin build docker image"
