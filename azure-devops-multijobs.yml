@@ -2,15 +2,30 @@ jobs:
 - job: BUILDVS2017
   pool:
     vmImage: 'vs2017-win2016'
+
   steps:
   - script: |
+      echo "hello from vmImage vs2017-win2016"
       echo "compile webnoauth.csproj using VS2017"
-      msbuild aspnetfx\ASPNET.WebForms.v4.7.2\WebFormsNoAuth\WebFormsNoAuth.csproj /p:DeployOnBuild=true /p:PublishProfile=FolderProfile2
-      xcopy aspnetfx\ASPNET.WebForms.v4.7.2\WebFormsNoAuth\bin\Release\Publish $(Build.ArtifactStagingDirectory)
+
+  - task: MSBuild@1
+    displayName: Build WebFormsNoAuth.csproj
+    inputs:
+      solution: $(Build.SourcesDirectory)\aspnetfx\ASPNET.WebForms.v4.7.2\WebFormsNoAuth\WebFormsNoAuth.csproj
+      msbuildLocationMethod: version
+      msbuildVersion: '15.0'
+      configuration: "Release"
+      msbuildArguments: /nologo /p:DeployOnBuild=true /p:PublishProfile=FolderProfile2
+      clean: 'false'
+      maximumCpuCount: 'false'
+
+  - script: |
+      echo "copy result to staging"
+      xcopy $(Build.SourcesDirectory)\aspnetfx\ASPNET.WebForms.v4.7.2\WebFormsNoAuth\bin\Release\Publish $(Build.ArtifactStagingDirectory)
 
 - job: WindowsContainer
   pool:
     vmImage: 'win1803'
   steps:
   - script: |
-      echo hello from Windows
+      echo "hello from vmImage win1803"
