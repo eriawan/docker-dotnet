@@ -27,9 +27,10 @@ jobs:
 
   - script: |
       echo "copy result to staging"
-      xcopy $(Build.SourcesDirectory)\aspnetfx\ASPNET.WebForms.v4.7.2\WebFormsNoAuth\bin\Release\Publish $(Build.ArtifactStagingDirectory)
+      xcopy $(Build.SourcesDirectory)\aspnetfx\ASPNET.WebForms.v4.7.2\WebFormsNoAuth\bin\Release\Publish $(Build.ArtifactStagingDirectory) /E
 
 - job: WindowsContainer
+  dependsOn: BUILDVS2017
   pool:
     vmImage: 'win1803'
   steps:
@@ -37,5 +38,5 @@ jobs:
       echo "hello from vmImage win1803"
       md buildresult
       echo "copy buildresult into build folder"
-      xcopy $(Build.ArtifactStagingDirectory) buildresult
+      xcopy $(Build.ArtifactStagingDirectory) buildresult /E
       echo "begin build docker image"
