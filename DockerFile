@@ -10,7 +10,10 @@ RUN Add-WindowsFeature Web-Server; `
     Add-WindowsFeature Web-Asp-Net45; `
     Add-WindowsFeature Web-Windows-Auth
 
-# Display the installed .NET Framework version to check the current installed .NET Framework 4.x, but this doesn't work well on ltsc image on ACI
+# Ensure ServiceMonitor.exe is running
+RUN Invoke-WebRequest -Uri https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.6/ServiceMonitor.exe -OutFile C:\ServiceMonitor.exe
+
+# Display the installed .NET Framework version to check the current installed .NET Framework 4.x
 RUN Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\' | Get-ItemPropertyValue -Name Release
 
 # Expose ports
