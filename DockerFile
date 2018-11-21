@@ -1,23 +1,23 @@
 # escape=`
 
-FROM microsoft/iis:windowsservercore-1803
+FROM microsoft/dotnet-framework:4.7.2-runtime-windowsservercore-ltsc2016
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-RUN Add-WindowsFeature NET-Framework-45-ASPNET; `
+# Display full Windows version
+RUN Get-ComputerInfo | select WindowsProductName, WindowsVersion, OsHardwareAbstractionLayer
+
+# Add IIS as Windows Feature, then add necessary other features for .NET Framework, ASP.NET, and Windows Authentication on IIS
+RUN Add-WindowsFeature Web-Server; `
+    Add-WindowsFeature NET-Framework-45-ASPNET; `
     Add-WindowsFeature Web-Asp-Net45; `
-    Add-WindowsFeature Web-Windows-Auth; `
-    Invoke-WebRequest -Uri https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.6/ServiceMonitor.exe -OutFile C:\ServiceMonitor.exe
+    Add-WindowsFeature Web-Windows-Auth
 
-# Copy published web app files
-# RUN md c:\webformsapp
-# WORKDIR c:/webformsapp
-# COPY SampleWebForms/ c:/webformsapp
-# RUN md c:\webformsnoauth
-# WORKDIR c:/webformsnoauth
-# COPY SampleWebFormsNoAuth/ c:/webformsnoauth
+# Display the installed .NET Framework version to check the current installed .NET Framework 4.x
+RUN Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\' | Get-ItemPropertyValue -Name Release
 
-# expose port
+# Expose ports
 EXPOSE 80
+EXPOSE 8181
 
 ENTRYPOINT ["C:\\ServiceMonitor.exe", "w3svc"]

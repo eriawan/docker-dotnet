@@ -6,7 +6,7 @@ pool:
   
 variables:
   buildConfiguration: 'Debug'
-  imageName: '$(loginserver)/eriawan/netcorewiniis:1803-$(Build.BuildId)'
+  imageName: '$(loginserver)/eriawan/netcorewiniis:2016LTSC-$(Build.BuildId)'
 
 steps:
 - script: |
@@ -18,6 +18,18 @@ steps:
     docker push $(imageName)
 
   env:
-    pswd: $(dockerPassword)    
+    pswd: $(dockerPassword) 
+    
+- task: Docker@1
+  displayName: 'Run the docker container'
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    azureSubscriptionEndpoint: 'AzSponsorConnection'
+    azureContainerRegistry: $(loginserver)
+    command: 'run'
+    imageName: '$(imageName)'
+    containerName: eriawancontainer
+    ports: 80
+    restartPolicy: always
 
 # - task: PublishBuildArtifacts@1
