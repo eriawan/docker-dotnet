@@ -32,4 +32,8 @@ steps:
     ports: 80
     restartPolicy: always
 
+- script: |
+    echo "Install AZ CLI using nodeJS npm"
+    npm install -g azure-cli
+
 # - task: PublishBuildArtifacts@1
