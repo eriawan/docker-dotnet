@@ -6,7 +6,7 @@ pool:
   
 variables:
   buildConfiguration: 'Debug'
-  imageName: '$(loginserver)/eriawan/netcorewiniis:2016LTSC-$(Build.BuildId)'
+  imageName: '$(loginserver)/eriawan/netcorewiniis:2016ltsc-$(Build.BuildId)'
 
 steps:
 - script: |
