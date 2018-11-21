@@ -2,7 +2,7 @@
 # based from sample from MS docs: https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
 
 pool:
-  vmImage: 'win1803'
+  vmImage: 'vs2017-win2016'
   
 variables:
   buildConfiguration: 'Debug'
