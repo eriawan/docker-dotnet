@@ -34,6 +34,7 @@ steps:
 
 - script: |
     echo "Install AZ CLI using nodeJS npm"
+    npm install --global windows-build-tools
     npm install -g azure-cli
 
 # - task: PublishBuildArtifacts@1
