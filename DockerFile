@@ -4,9 +4,6 @@ FROM microsoft/dotnet-framework:4.7.2-runtime-windowsservercore-ltsc2016
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-# Display full Windows version
-RUN Get-ComputerInfo | select WindowsProductName, WindowsVersion, OsHardwareAbstractionLayer
-
 # Add IIS as Windows Feature, then add necessary other features for .NET Framework, ASP.NET, and Windows Authentication on IIS
 RUN Add-WindowsFeature Web-Server; `
     Add-WindowsFeature NET-Framework-45-ASPNET; `
@@ -14,7 +11,7 @@ RUN Add-WindowsFeature Web-Server; `
     Add-WindowsFeature Web-Windows-Auth
 
 # Display the installed .NET Framework version to check the current installed .NET Framework 4.x, but this doesn't work well on ltsc image on ACI
-#RUN Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\' | Get-ItemPropertyValue -Name Release
+RUN Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\' | Get-ItemPropertyValue -Name Release
 
 # Expose ports
 EXPOSE 80
