@@ -10,6 +10,11 @@ variables:
 
 steps:
 - script: |
+    echo "Install AZ CLI using nodeJS npm"
+    npm install --global windows-build-tools
+    npm install -g azure-cli
+
+- script: |
     echo "Building docker image $(imageName)"
     docker build -f Dockerfile -t $(imageName) .
     echo "login to $(loginserver)"
@@ -32,9 +37,5 @@ steps:
     ports: 80
     restartPolicy: always
 
-- script: |
-    echo "Install AZ CLI using nodeJS npm"
-    npm install --global windows-build-tools
-    npm install -g azure-cli
 
 # - task: PublishBuildArtifacts@1
