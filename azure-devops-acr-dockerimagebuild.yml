@@ -7,13 +7,9 @@ pool:
 variables:
   buildConfiguration: 'Debug'
   imageName: '$(loginserver)/eriawan/netcorewiniis:2016ltsc-$(Build.BuildId)'
+  azresourceGroup: '$(azSponsorRG)'
 
 steps:
-- script: |
-    echo "Install AZ CLI using nodeJS npm"
-    npm install --global --production windows-build-tools
-    npm install -g azure-cli
-
 - script: |
     echo "Building docker image $(imageName)"
     docker build -f Dockerfile -t $(imageName) .
@@ -37,5 +33,13 @@ steps:
     ports: 80
     restartPolicy: always
 
+- task: AzureCLI@1
+  displayName: 'Azure CLI Create Container'
+  inputs:
+    azureSubscription: AzSponsorConnection
+    scriptLocation: inlineScript
+    inlineScript: |
+      az container create -g $(azresourceGroup) -n wincontainer-$(Build.BuildId) --image $(imageName) --os-type Windows \ 
+      --registry-login-server $(loginserver) --registry-username $(dockerId)  --registry-password $(dockerPassword)
 
 # - task: PublishBuildArtifacts@1
