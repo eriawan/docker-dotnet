@@ -21,17 +21,17 @@ steps:
   env:
     pswd: $(dockerPassword) 
     
-- task: Docker@1
-  displayName: 'Run the docker container'
-  inputs:
-    containerregistrytype: 'Azure Container Registry'
-    azureSubscriptionEndpoint: 'AzSponsorConnection'
-    azureContainerRegistry: $(loginserver)
-    command: 'run'
-    imageName: '$(imageName)'
-    containerName: eriawancontainer
-    ports: 80
-    restartPolicy: always
+# - task: Docker@1
+#   displayName: 'Run the docker container'
+#   inputs:
+#     containerregistrytype: 'Azure Container Registry'
+#     azureSubscriptionEndpoint: 'AzSponsorConnection'
+#     azureContainerRegistry: $(loginserver)
+#     command: 'run'
+#     imageName: '$(imageName)'
+#     containerName: eriawancontainer
+#     ports: 80
+#     restartPolicy: always
 
 - task: AzureCLI@1
   displayName: 'Azure CLI Create Container'
@@ -39,6 +39,6 @@ steps:
     azureSubscription: AzSponsorConnection
     scriptLocation: inlineScript
     inlineScript: |
-      az container create -g $(azresourceGroup) -n wincontainer-$(Build.BuildId) --image $(imageName) --os-type Windows --registry-login-server $(loginserver) --registry-username $(az keyvault secret show --vault-name azsponsorkey -n acrsponsor-pull-usr --query value -o tsv) --registry-password $(az keyvault secret show --vault-name azsponsorkey -n acrsponsor-pull-pwd --query value -o tsv)
+      az container create -g $(azresourceGroup) -n wincontainer-$(Build.BuildId) --image $(imageName) --os-type Windows --registry-login-server $(loginserver) --registry-username $(az keyvault secret show --vault-name azsponsorkey -n acrsponsor-pull-usr --query value -o tsv)
 
 # - task: PublishBuildArtifacts@1
