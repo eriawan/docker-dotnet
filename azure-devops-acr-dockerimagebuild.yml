@@ -39,6 +39,6 @@ steps:
     azureSubscription: AzSponsorConnection
     scriptLocation: inlineScript
     inlineScript: |
-      az container create -g $(azresourceGroup) -n wincontainer-$(Build.BuildId) --image $(imageName) --os-type Windows --registry-login-server $(loginserver) --registry-username $(az keyvault secret show --vault-name azsponsorkey -n acrsponsor-pull-usr --query value -o tsv)
+      az container create -g $(azresourceGroup) -n wincontainer-$(Build.BuildId) --image $(imageName) --os-type Windows --registry-login-server $(loginserver) --registry-username $(acrsponsor-pull-usr) --registry-password $(acrsponsor-pull-pwd)
 
 # - task: PublishBuildArtifacts@1
