@@ -39,7 +39,6 @@ steps:
     azureSubscription: AzSponsorConnection
     scriptLocation: inlineScript
     inlineScript: |
-      az container create -g $(azresourceGroup) -n wincontainer-$(Build.BuildId) --image $(imageName) --os-type Windows \ 
-      --registry-login-server $(loginserver) --registry-username $(dockerId)  --registry-password $(dockerPassword)
+      az container create -g $(azresourceGroup) -n wincontainer-$(Build.BuildId) --image $(imageName) --os-type Windows --registry-login-server $(loginserver) --registry-username $(dockerId) --registry-password $(dockerPassword)
 
 # - task: PublishBuildArtifacts@1
