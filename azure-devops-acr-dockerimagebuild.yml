@@ -11,6 +11,14 @@ variables:
 
 steps:
 - script: |
+    echo "Check WindowsServer 2016 LTSC image and list available docker images cached"
+    docker image inspect microsoft/windowsservercore:ltsc2016 -f '{{.RepoDigests}}'
+    docker image ls
+    echo "Testing docker image pull caches against Windows Server 2016 LTSC"
+    docker image pull microsoft/windowsservercore:ltsc2016
+    docker image inspect microsoft/windowsservercore:ltsc2016 -f '{{.RepoDigests}}'
+    echo "List available docker images cached after image pull"
+    docker image ls
     echo "Building docker image $(imageName)"
     docker build -f Dockerfile -t $(imageName) .
     echo "login to $(loginserver)"
