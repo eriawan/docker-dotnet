@@ -11,6 +11,8 @@ variables:
 
 steps:
 - script: |
+    echo "Get list of cached docker images"
+    docker image ls --digests
     echo "Building docker image $(imageName)"
     docker build -f Dockerfile -t $(imageName) .
     echo "login to $(loginserver)"
